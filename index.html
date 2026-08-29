@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Luna ❤️</title>
 
+    <!-- Cliente JS de Supabase vía CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -21,10 +24,7 @@
             position: relative;
         }
 
-        /* =========================
-           PANTALLA DE LOGIN
-        ========================= */
-
+        /* PANTALLA DE LOGIN */
         #login {
             min-height: 100vh;
             display: flex;
@@ -56,7 +56,7 @@
             color: #ddd;
         }
 
-        input {
+        input, textarea {
             width: 100%;
             padding: 14px;
             margin: 8px 0;
@@ -64,6 +64,12 @@
             border-radius: 10px;
             font-size: 16px;
             outline: none;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         button {
@@ -90,17 +96,13 @@
             display: none;
         }
 
-        /* =========================
-           CONTENIDO PRINCIPAL
-        ========================= */
-
+        /* CONTENIDO PRINCIPAL */
         #contenido {
             display: none;
             position: relative;
             z-index: 5;
         }
 
-        /* Imagen de fondo horizontal en el Hero */
         header {
             min-height: 100vh;
             display: flex;
@@ -166,10 +168,7 @@
             margin-bottom: 40px;
         }
 
-        /* =========================
-           FOTOS
-        ========================= */
-
+        /* FOTOS */
         .galeria {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -200,10 +199,7 @@
             color: #ddd;
         }
 
-        /* =========================
-           CARTA INTERACTIVA
-        ========================= */
-
+        /* CARTA INTERACTIVA */
         .carta-contenedor {
             display: flex;
             flex-direction: column;
@@ -211,6 +207,7 @@
         }
 
         .sobre {
+            display: none;
             background: rgba(255, 255, 255, 0.12);
             border: 2px dashed #ff5ca8;
             border-radius: 20px;
@@ -251,7 +248,6 @@
             cursor: pointer;
         }
 
-        /* Oculta la carta por defecto */
         .carta-contenido {
             display: none;
             background: rgba(255, 255, 255, 0.12);
@@ -265,6 +261,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             animation: aparecer 0.8s ease-in-out;
+            white-space: pre-line;
         }
 
         @keyframes aparecer {
@@ -278,14 +275,38 @@
             }
         }
 
-        /* =========================
-           WINNIE POOHS FLOTANTES
-        ========================= */
+        /* SECCIÓN MENSAJES DE ELLA */
+        .seccion-db {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px 30px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            max-width: 700px;
+            margin: auto;
+        }
 
+        .mensaje-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ff5ca8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .mensaje-item small {
+            color: #aaa;
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        /* WINNIE POOHS FLOTANTES */
         .pooh-flotante {
             position: fixed;
             bottom: -100px;
-            z-index: 1; /* Detrás del contenido */
+            z-index: 1;
             pointer-events: none;
             animation: flotarPooh 12s linear infinite;
             opacity: 0.1;
@@ -296,22 +317,15 @@
                 transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.4;
-            }
-            90% {
-                opacity: 0.3;
-            }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.3; }
             100% {
                 transform: translateY(-120vh) rotate(20deg);
                 opacity: 0;
             }
         }
 
-        /* =========================
-           FINAL
-        ========================= */
-
+        /* FINAL */
         .final {
             text-align: center;
             min-height: 60vh;
@@ -341,16 +355,12 @@
             position: relative;
             z-index: 5;
         }
-
     </style>
 </head>
 
 <body>
 
-    <!-- =========================
-         LOGIN
-    ========================= -->
-
+    <!-- LOGIN -->
     <div id="login">
         <div class="login-box">
             <div class="corazon">❤️</div>
@@ -367,10 +377,7 @@
     </div>
 
 
-    <!-- =========================
-         PAGINA PRINCIPAL
-    ========================= -->
-
+    <!-- PAGINA PRINCIPAL -->
     <div id="contenido">
 
         <header>
@@ -388,90 +395,32 @@
         </header>
 
 
-        <!-- =========================
-             GALERIA
-        ========================= -->
-
+        <!-- GALERIA -->
         <section>
             <h2>Algunas fotos que para mi son importantes, me gustaria que hubiera mas ❤️</h2>
 
             <div class="galeria">
-                <div class="foto">
-                    <img src="fotos/foto1.jpeg" alt="Nuestro momento">
-                    <p>De mis favoritas ❤️</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto2.jpeg" alt="Nuestro momento">
-                    <p>La unica que hemos subido, necesitamos subir mas.</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto3.jpeg" alt="Nuestro momento">
-                    <p>Extraño esa sonrisa cuando no estas :(</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto4.jpeg" alt="Nuestro momento">
-                    <p>Estaba tan feliz de que ese dia estuvieramos juntos. ❤️</p>
-                </div>
-                
-                <div class="foto">
-                    <img src="fotos/foto5.jpeg" alt="Nuestro momento">
-                    <p>Esta es reciente pero ese dia al recibirla sin pedirla
-                        me dio mucho gusto. </p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto6.jpeg" alt="Nuestro momento">
-                    <p>De las mejores sorpresas que me han dado
-                        hasta el momento sigo agradecido por eso.
-                    </p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto7.jpeg" alt="Nuestro momento">
-                    <p>Esta foto me hace sentirme muy orgulloso de ti mi niña. ❤️</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto8.jpeg" alt="Nuestro momento">
-                    <p>Me encantan tus ojitos.</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto9.jpeg" alt="Nuestro momento">
-                    <p>❤️</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto10.jpeg" alt="Nuestro momento">
-                    <p>❤️</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto11.jpeg" alt="Nuestro momento">
-                    <p>❤️</p>
-                </div>
-
-                <div class="foto">
-                    <img src="fotos/foto12.jpeg" alt="Nuestro momento">
-                    <p>❤️</p>
-                </div>
+                <div class="foto"><img src="fotos/foto1.jpeg" alt="Nuestro momento"><p>De mis favoritas ❤️</p></div>
+                <div class="foto"><img src="fotos/foto2.jpeg" alt="Nuestro momento"><p>La unica que hemos subido, necesitamos subir mas.</p></div>
+                <div class="foto"><img src="fotos/foto3.jpeg" alt="Nuestro momento"><p>Extraño esa sonrisa cuando no estas :(</p></div>
+                <div class="foto"><img src="fotos/foto4.jpeg" alt="Nuestro momento"><p>Estaba tan feliz de que ese dia estuvieramos juntos. ❤️</p></div>
+                <div class="foto"><img src="fotos/foto5.jpeg" alt="Nuestro momento"><p>Esta es reciente pero ese dia al recibirla sin pedirla me dio mucho gusto.</p></div>
+                <div class="foto"><img src="fotos/foto6.jpeg" alt="Nuestro momento"><p>De las mejores sorpresas que me han dado hasta el momento sigo agradecido por eso.</p></div>
+                <div class="foto"><img src="fotos/foto7.jpeg" alt="Nuestro momento"><p>Esta foto me hace sentirme muy orgulloso de ti mi niña. ❤️</p></div>
+                <div class="foto"><img src="fotos/foto8.jpeg" alt="Nuestro momento"><p>Me encantan tus ojitos.</p></div>
+                <div class="foto"><img src="fotos/foto9.jpeg" alt="Nuestro momento"><p>❤️</p></div>
+                <div class="foto"><img src="fotos/foto10.jpeg" alt="Nuestro momento"><p>❤️</p></div>
+                <div class="foto"><img src="fotos/foto11.jpeg" alt="Nuestro momento"><p>❤️</p></div>
+                <div class="foto"><img src="fotos/foto12.jpeg" alt="Nuestro momento"><p>❤️</p></div>
             </div>
         </section>
 
 
-        <!-- =========================
-             CARTA INTERACTIVA
-        ========================= -->
-
+        <!-- CARTA INTERACTIVA -->
         <section>
             <h2>Algo que quiero decirte 💌</h2>
 
             <div class="carta-contenedor">
-                
-                <!-- Vista del sobre interactivo -->
                 <div id="sobre" class="sobre" onclick="abrirCarta()">
                     <div class="icono-carta">✉️</div>
                     <h3>Tienes una carta guardada</h3>
@@ -479,42 +428,34 @@
                     <button class="btn-abrir">Abrir mensaje ❤️</button>
                 </div>
 
-                <!-- Contenido desplegable de la carta -->
                 <div id="cartaMensaje" class="carta-contenido">
-                    <p><strong>Luna,</strong></p>
-                    <br>
-                    <p>
-                        Hola Luna la vdd no habia actualizado esto por que supuse que no entrabas mas
-                        pero si llegas a ver esto solo quiero decirte que aunque no estemos bien yo aun 
-                        te sigo pensando y queriendo mas cada dia, espero y estes bastante bien y que
-                        estes haciendo muchos amigos en la universidad solo espero y sigas siendo la misma 
-                        Luna que yo conozco y que no importa cuanto tiempo pase y siga pasando, siepmre
-                        estoy pensando en ti, en lo personal si es muy dificil para mi estar en la situacion 
-                        en la que estamos y ese sentimiento de nostalgia al recordar tu imagen y tu personalidad
-                        siempre me acompaña, no te he dejado de querer, al contrario cada dia siento que te necesito
-                        mas y eso no quiere decir que no te haya necesitado cuando te tuve pero simplemente
-                        tu falta de compañia me hace mal, siempre te voy a querer changuita y no olvides lo
-                        importante que eres para mi y para todos los aspectos que forman parte de mi vida
-                        por que en todos estos estas tu y solo tu, tu eres y siempre has sido mi motivo
-                        para ser mejor, porque yo se el tipo de personita que eres y por eso me esfuerzo tanto 
-                        para poder ser merecedor de un corazon como el tuyo, espero y algun dia leas esto 
-                        y que sepas que siempre te estoy extrañando en todo momento y lugar, te quiero Luna
-                        solo tu sabes cuanto :).
-                    </p>
-                    <br>
-                    <p>
-                        Este espacio es completamente tuyo. ❤️
-                    </p>
+                    <p id="textoCarta">Cargando mensaje...</p>
                 </div>
-
             </div>
         </section>
 
 
-        <!-- =========================
-             FINAL
-        ========================= -->
+        <!-- SECCIÓN BASE DE DATOS -->
+        <section>
+            <h2>Déjame una respuesta 💬</h2>
+            <div class="seccion-db">
+                <p style="margin-bottom: 15px; text-align: center; color: #eee;">
+                    Si lees esto y quieres dejarme algún mensaje o nota, puedes escribirlo aquí:
+                </p>
+                <form id="formMensaje">
+                    <textarea id="textoMensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    <button type="submit" id="btnEnviar">Enviar mensaje ✨</button>
+                </form>
 
+                <div style="margin-top: 35px;">
+                    <h3 style="margin-bottom: 15px; font-size: 22px; text-align: center;">Mensajes guardados:</h3>
+                    <div id="contenedorMensajes">Cargando mensajes...</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FINAL -->
         <section class="final">
             <div class="corazon">❤️</div>
             <h2>Te quiero, Luna</h2>
@@ -526,7 +467,6 @@
             </p>
         </section>
 
-
         <footer>
             Hecho con el ❤️ para mi Lunita
         </footer>
@@ -534,50 +474,190 @@
     </div>
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================= -->
-
+    <!-- JAVASCRIPT & SUPABASE -->
     <script>
+        let supabaseClient = null;
+
+        const SUPABASE_URL = 'https://gzvmngqihxjlfgfwjouy.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_d5N_K4Z3IMDQ7-yN_JAOSA_ZlJVO8ut';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } else {
+                console.error("El SDK de Supabase no se cargó correctamente.");
+            }
+
+            const formMensaje = document.getElementById('formMensaje');
+            if (formMensaje) {
+                formMensaje.addEventListener('submit', guardarMensaje);
+            }
+
+            crearPoohsFlotantes();
+        });
+
+        // Lógica de Login
         function entrar() {
-            const usuario = document.getElementById("usuario").value;
-            const password = document.getElementById("password").value;
+            const usuarioInput = document.getElementById("usuario").value.trim();
+            const passwordInput = document.getElementById("password").value.trim();
 
-            const usuarioCorrecto = "Luna";
-            const passwordCorrecto = "1234";
-
-            if (usuario === usuarioCorrecto && password === passwordCorrecto) {
+            if (usuarioInput.toLowerCase() === "luna" && passwordInput === "1234") {
                 document.getElementById("login").style.display = "none";
                 document.getElementById("contenido").style.display = "block";
+                document.getElementById("error").style.display = "none";
+                
+                if (supabaseClient) {
+                    cargarCarta();
+                    cargarMensajes();
+                }
             } else {
                 document.getElementById("error").style.display = "block";
             }
         }
 
-        // Función para abrir la carta interactiva
-        function abrirCarta() {
-            document.getElementById("sobre").style.display = "none";
-            document.getElementById("cartaMensaje").style.display = "block";
+        // CARGA ÚNICA DE CARTA
+        async function cargarCarta() {
+            if (!supabaseClient) return;
+
+            // Busca la carta más reciente enviada por ti (tipo 'carta' o 'admin')
+            const { data, error } = await supabaseClient
+                .from('comentarios')
+                .select('*')
+                .in('tipo', ['carta', 'admin'])
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (error) {
+                console.error("Error al obtener la carta:", error);
+                document.getElementById("textoCarta").textContent = "Error al cargar la carta.";
+                document.getElementById("cartaMensaje").style.display = "block";
+                return;
+            }
+
+            const sobre = document.getElementById("sobre");
+            const cartaMensaje = document.getElementById("cartaMensaje");
+            const textoCarta = document.getElementById("textoCarta");
+
+            if (data && data.length > 0) {
+                const carta = data[0];
+                textoCarta.textContent = carta.mensaje;
+
+                if (carta.leido === false) {
+                    // Si NO ha sido leída: Muestra el sobre
+                    sobre.style.display = "block";
+                    cartaMensaje.style.display = "none";
+                    sobre.dataset.mensajeId = carta.id;
+                } else {
+                    // Si YA fue leída: Muestra directamente el texto
+                    sobre.style.display = "none";
+                    cartaMensaje.style.display = "block";
+                }
+            } else {
+                // Si la consulta devuelve 0 registros
+                textoCarta.textContent = "Aún no hay cartas guardadas ❤️";
+                sobre.style.display = "none";
+                cartaMensaje.style.display = "block";
+            }
         }
 
-        // Función para generar Winnie Poohs flotantes desde tu carpeta local
+        // Abrir la carta al hacer clic sobre el sobre
+        async function abrirCarta() {
+            const sobre = document.getElementById("sobre");
+            const mensajeId = sobre.dataset.mensajeId;
+
+            sobre.style.display = "none";
+            document.getElementById("cartaMensaje").style.display = "block";
+
+            if (mensajeId) {
+                await supabaseClient
+                    .from('comentarios')
+                    .update({ leido: true })
+                    .eq('id', mensajeId);
+
+                delete sobre.dataset.mensajeId;
+            }
+        }
+
+        // GUARDA LAS RESPUESTAS ENVIADAS POR ELLA
+        async function guardarMensaje(e) {
+            e.preventDefault();
+            if (!supabaseClient) return;
+
+            const btn = document.getElementById('btnEnviar');
+            const mensajeTexto = document.getElementById('textoMensaje').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+
+            const { data, error } = await supabaseClient
+                .from('comentarios')
+                .insert([{ 
+                    mensaje: mensajeTexto, 
+                    leido: true,
+                    tipo: 'visitante'
+                }]);
+
+            if (error) {
+                console.error('Error al guardar:', error);
+                alert('Ocurrió un error al guardar el mensaje.');
+            } else {
+                document.getElementById('textoMensaje').value = '';
+                cargarMensajes();
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Enviar mensaje ✨';
+        }
+
+        // HISTORIAL DE MENSAJES DE ELLA (tipo = 'visitante')
+        async function cargarMensajes() {
+            const contenedor = document.getElementById('contenedorMensajes');
+            if (!contenedor || !supabaseClient) return;
+
+            const { data, error } = await supabaseClient
+                .from('comentarios')
+                .select('*')
+                .eq('tipo', 'visitante')
+                .order('created_at', { ascending: false });
+
+            if (error || !data || data.length === 0) {
+                contenedor.innerHTML = '<p style="color: #aaa; text-align: center;">Aún no hay mensajes guardados.</p>';
+                return;
+            }
+
+            contenedor.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'mensaje-item';
+                
+                const fecha = new Date(item.created_at).toLocaleString('es-ES', {
+                    dateStyle: 'short',
+                    timeStyle: 'short'
+                });
+
+                div.innerHTML = `
+                    <p>${item.mensaje}</p>
+                    <small>Enviado el ${fecha}</small>
+                `;
+                contenedor.appendChild(div);
+            });
+        }
+
+        // Animación de Pooh
         function crearPoohsFlotantes() {
             const contenedor = document.body;
-            
-            // RUTA LOCAL A TU IMAGEN:
             const urlPooh = "fotos/pooh.png"; 
 
             setInterval(() => {
                 const pooh = document.createElement("img");
                 pooh.src = urlPooh;
                 pooh.classList.add("pooh-flotante");
-
                 pooh.style.left = Math.random() * 90 + "vw";
                 
-                const tamano = Math.random() * 30 + 40; // Tamaño entre 40px y 70px
+                const tamano = Math.random() * 30 + 40;
                 pooh.style.width = tamano + "px";
 
-                const duracion = Math.random() * 6 + 8; // Velocidad entre 8s y 14s
+                const duracion = Math.random() * 6 + 8;
                 pooh.style.animationDuration = duracion + "s";
 
                 contenedor.appendChild(pooh);
@@ -587,9 +667,6 @@
                 }, duracion * 1000);
             }, 2000);
         }
-
-        window.onload = crearPoohsFlotantes;
     </script>
-
 </body>
 </html>
